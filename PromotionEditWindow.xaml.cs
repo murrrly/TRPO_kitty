@@ -51,8 +51,25 @@ namespace RPM
 		{
 			string name = NameTextBox.Text.Trim();
 			string desc = DescriptionTextBox.Text.Trim();
+
+			// Проверка обязательных полей
+			if (string.IsNullOrWhiteSpace(name))
+			{
+				MessageBox.Show("Введите название акции.");
+				NameTextBox.Focus();
+				return;
+			}
+
+			if (string.IsNullOrWhiteSpace(desc))
+			{
+				MessageBox.Show("Введите описание акции.");
+				DescriptionTextBox.Focus();
+				return;
+			}
+
 			DateTime start = StartDatePicker.SelectedDate ?? DateTime.Today;
 			DateTime end = EndDatePicker.SelectedDate ?? DateTime.Today;
+
 			if (!decimal.TryParse(DiscountPriceTextBox.Text.Trim(), out decimal discountPrice))
 			{
 				MessageBox.Show("Некорректная цена по акции");

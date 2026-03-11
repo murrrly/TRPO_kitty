@@ -49,6 +49,11 @@
 							Width="160"
 							Margin="15,0,0,0"
 							Click="SaveButton_Click"/>
+
+					<Button Content="Удалить"
+							Width="160"
+							Margin="15,0,0,0"
+							Click="DeleteButton_Click"/>
 				</StackPanel>
 
 				<!-- Таблица -->

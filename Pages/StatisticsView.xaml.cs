@@ -24,12 +24,21 @@ namespace RPM.Pages
 		private void LoadBranches()
 		{
 			Branches.Clear();
+
+			// пункт "Все филиалы"
+			Branches.Add(new BranchViewModel
+			{
+				ID = 0,
+				Address = "Все филиалы"
+			});
+
 			try
 			{
 				using (var conn = new MySqlConnection(connectionString))
 				{
 					conn.Open();
 					string query = "SELECT ID, Address FROM Branches ORDER BY Address";
+
 					using (var cmd = new MySqlCommand(query, conn))
 					using (var reader = cmd.ExecuteReader())
 					{
@@ -45,7 +54,7 @@ namespace RPM.Pages
 				}
 
 				BranchFilterComboBox.ItemsSource = Branches;
-				BranchFilterComboBox.SelectedIndex = -1; // "Все филиалы"
+				BranchFilterComboBox.SelectedIndex = 0; // сразу выбираем "Все филиалы"
 			}
 			catch (Exception ex)
 			{
@@ -56,7 +65,12 @@ namespace RPM.Pages
 		private void BranchFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (BranchFilterComboBox.SelectedItem is BranchViewModel branch)
-				SelectedBranchID = branch.ID;
+			{
+				if (branch.ID == 0)
+					SelectedBranchID = null; // все филиалы
+				else
+					SelectedBranchID = branch.ID;
+			}
 			else
 				SelectedBranchID = null;
 

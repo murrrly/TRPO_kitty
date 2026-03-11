@@ -131,5 +131,47 @@ namespace RPM.Pages
 				MessageBox.Show("Ошибка при сохранении: " + ex.Message);
 			}
 		}
+
+		private void DeleteButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (PromotionsDataGrid.SelectedItem == null)
+			{
+				MessageBox.Show("Выберите акцию для удаления.");
+				return;
+			}
+
+			DataRowView row = (DataRowView)PromotionsDataGrid.SelectedItem;
+			int id = Convert.ToInt32(row["ID"]);
+
+			var result = MessageBox.Show(
+				"Вы действительно хотите удалить эту акцию?",
+				"Подтверждение удаления",
+				MessageBoxButton.YesNo,
+				MessageBoxImage.Warning);
+
+			if (result != MessageBoxResult.Yes)
+				return;
+
+			try
+			{
+				using (MySqlConnection conn = new MySqlConnection(connectionString))
+				{
+					conn.Open();
+
+					string query = "DELETE FROM Promotions WHERE ID=@id";
+					MySqlCommand cmd = new MySqlCommand(query, conn);
+					cmd.Parameters.AddWithValue("@id", id);
+					cmd.ExecuteNonQuery();
+				}
+
+				LoadPromotions();
+
+				MessageBox.Show("Акция удалена.");
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Ошибка при удалении: " + ex.Message);
+			}
+		}
 	}
 }
