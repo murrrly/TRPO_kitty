@@ -1,0 +1,44 @@
+﻿<Window x:Class="RPM.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Администратор" Height="700" Width="1100"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="256"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
+		<!-- ЛЕВАЯ ПАНЕЛЬ -->
+		<Border Background="#FFF1D8" BorderBrush="#E0E0E0" BorderThickness="0,0,1,0">
+			<StackPanel Margin="16,24,16,16" VerticalAlignment="Top">
+				<TextBlock Text="Sushi Cats Cafe"
+                           FontFamily="Inter"
+                           FontWeight="SemiBold"
+                           FontSize="20"
+                           Foreground="#000000"
+                           Margin="0,0,0,24"/>
+
+				<Button Content=" Заказы" Click="Orders_Click"
+					 HorizontalContentAlignment="Left"/>
+				<Button Content=" Меню" Click="Menu_Click"
+					  HorizontalContentAlignment="Left"/>
+				<Button Content=" Сотрудники" Click="Users_Click"
+					 HorizontalContentAlignment="Left"/>
+				<Button Content=" Статистика" Click="Stats_Click"
+					 HorizontalContentAlignment="Left"/>
+				<Button Content=" Акции" Click="Promo_Click"
+					 HorizontalContentAlignment="Left"/>
+				<Button Content="Выход" Background="#E84C34" Foreground="White" Click="Exit_Click"/>
+
+			</StackPanel>
+		</Border>
+
+		<!-- ПРАВАЯ ОБЛАСТЬ -->
+		<Border Grid.Column="1" Background="#F5F5F5" Padding="16">
+			<ContentControl x:Name="MainContent"/>
+		</Border>
+	</Grid>
+</Window>

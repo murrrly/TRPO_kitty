@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="RPM.Pages.NewOrderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="#FFF9F2">
+	<UserControl.Resources>
+		<LinearGradientBrush x:Key="MenuCardGradient" StartPoint="0,0" EndPoint="1,1">
+			<GradientStop Color="#FFF4E1" Offset="0"/>
+			<GradientStop Color="#FFD8A86B" Offset="1"/>
+		</LinearGradientBrush>
+		<DropShadowEffect x:Key="DropShadowEffect" BlurRadius="8" ShadowDepth="2" Opacity="0.2"/>
+		<Style x:Key="CenteredTextStyle" TargetType="TextBlock">
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+	</UserControl.Resources>
+
+	<Grid Margin="20">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="2*"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
+		<!-- Левое меню -->
+		<Border Background="White" CornerRadius="20" Padding="15" Margin="0,0,10,0" Effect="{StaticResource DropShadowEffect}">
+			<StackPanel>
+				<TextBlock Text="Меню" FontSize="24" FontWeight="Bold" Foreground="#3A2A1F" Margin="0,0,0,10"/>
+				<DataGrid x:Name="MenuDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" Height="400"
+                          RowBackground="White" AlternatingRowBackground="#FFF9F2" BorderThickness="0" FontSize="14" Foreground="#3A2A1F">
+					<DataGrid.ColumnHeaderStyle>
+						<Style TargetType="DataGridColumnHeader">
+							<Setter Property="Background" Value="{StaticResource MenuCardGradient}"/>
+							<Setter Property="Foreground" Value="#3A2A1F"/>
+							<Setter Property="FontWeight" Value="Bold"/>
+							<Setter Property="Height" Value="35"/>
+							<Setter Property="HorizontalContentAlignment" Value="Center"/>
+							<Setter Property="VerticalContentAlignment" Value="Center"/>
+						</Style>
+					</DataGrid.ColumnHeaderStyle>
+
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
+						<DataGridTextColumn Header="Состав" Binding="{Binding Composition}" Width="200"/>
+						<DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="80" ElementStyle="{StaticResource CenteredTextStyle}"/>
+
+						<!-- Кнопки добавить/убавить -->
+						<DataGridTemplateColumn Header="Действие" Width="120">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+										<Button Content="−" Width="25" Height="25" Margin="2"
+                                                Click="DecreaseQuantity_Click"/>
+										<TextBlock Text="{Binding Quantity}" Width="30" TextAlignment="Center" VerticalAlignment="Center"/>
+										<Button Content="+" Width="25" Height="25" Margin="2"
+                                                Click="IncreaseQuantity_Click"/>
+									</StackPanel>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+			</StackPanel>
+		</Border>
+
+		<!-- Правая корзина и оплата -->
+		<Border Grid.Column="1" Background="White" CornerRadius="20" Padding="15" Effect="{StaticResource DropShadowEffect}">
+			<StackPanel>
+				<TextBlock Text="Корзина" FontSize="24" FontWeight="Bold" Foreground="#3A2A1F" Margin="0,0,0,10"/>
+				<DataGrid x:Name="CartDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Height="250"
+                          RowBackground="White" AlternatingRowBackground="#FFF9F2" BorderThickness="0" FontSize="14" Foreground="#3A2A1F">
+					<DataGrid.ColumnHeaderStyle>
+						<Style TargetType="DataGridColumnHeader">
+							<Setter Property="Background" Value="{StaticResource MenuCardGradient}"/>
+							<Setter Property="Foreground" Value="#3A2A1F"/>
+							<Setter Property="FontWeight" Value="Bold"/>
+							<Setter Property="Height" Value="35"/>
+							<Setter Property="HorizontalContentAlignment" Value="Center"/>
+							<Setter Property="VerticalContentAlignment" Value="Center"/>
+						</Style>
+					</DataGrid.ColumnHeaderStyle>
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
+						<DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity}" Width="60" ElementStyle="{StaticResource CenteredTextStyle}"/>
+						<DataGridTextColumn Header="Цена" Binding="{Binding TotalPrice}" Width="80" ElementStyle="{StaticResource CenteredTextStyle}"/>
+					</DataGrid.Columns>
+				</DataGrid>
+
+				<TextBlock x:Name="TotalText" Text="Итого: 0" FontSize="20" Margin="0,10,0,0" FontWeight="SemiBold" Foreground="#3A2A1F"/>
+
+				<TextBlock Text="Тип оплаты:" FontSize="16" Margin="0,20,0,5" FontWeight="SemiBold"/>
+				<ComboBox x:Name="PaymentTypeCombo" SelectedIndex="0" Height="30" Width="150">
+					<ComboBoxItem Content="Наличные"/>
+					<ComboBoxItem Content="Карта"/>
+				</ComboBox>
+
+				<Button Content="Оформить" Width="150" Height="40" Margin="0,20,0,0" Background="#FFD8A86B" Foreground="White" BorderThickness="0" Click="PlaceOrder_Click"/>
+			</StackPanel>
+		</Border>
+	</Grid>
+</UserControl>
